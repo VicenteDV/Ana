@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Configuración para caracteres especiales y diseño adaptable -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flores Amarillas para Ti</title>
     <style>
+        /* Definimos el fondo blanco y limpiamos márgenes [5, 6] */
         body {
-            background-color: #ffffff; 
+            background-color: #ffffff;
             margin: 0;
-            overflow: hidden; 
+            overflow: hidden;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -19,34 +19,56 @@
 
         .mensaje {
             position: absolute;
-            z-index: 10; 
+            top: 20px;
             color: #fbc02d;
-            font-size: 2rem;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
             padding: 10px 20px;
-            border-radius: 10px;
-            pointer-events: none; 
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            pointer-events: none;
         }
 
+        /* Contenedor de la flor individual [6] */
         .flor {
             position: absolute;
-            font-size: 50px;
-            user-select: none;
-            animation: brotarYCrecer 4s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* El punto de origen del crecimiento es la base [2] */
+            transform-origin: bottom;
         }
 
-        @keyframes brotarYCrecer {
-            0% {
-                transform: scale(0) rotate(0deg); 
-                opacity: 0;
+        /* Animación del tallo: crece hacia arriba */
+        .tallo {
+            width: 4px;
+            height: 0;
+            background-color: #4caf50;
+            border-radius: 2px;
+            animation: crecerTallo 2s ease-out forwards;
+        }
+
+        @keyframes crecerTallo {
+            0% { height: 0; }
+            100% { height: 120px; }
+        }
+
+        /* Animación de la flor (cabeza): aparece después del tallo */
+        .cabeza-flor {
+            font-size: 0px;
+            margin-bottom: -10px;
+            animation: abrirFlor 1.5s ease-out 1.5s forwards;
+            user-select: none;
+        }
+
+        @keyframes abrirFlor {
+            0% { 
+                font-size: 0px; 
+                transform: rotate(-20deg); 
             }
-            20% {
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5) rotate(20deg); 
-                opacity: 0.8;
+            100% { 
+                font-size: 50px; 
+                transform: rotate(0deg); 
             }
         }
     </style>
@@ -54,31 +76,44 @@
 <body>
 
     <div class="mensaje">
-        <h1>Para mi persona favorita 🌻</h1>
+        <h1>Un jardín para ti 🌻</h1>
     </div>
 
     <script>
-        function crearFlor() {
-            const flores = ['🌻', '🌼', '✨', '⭐']; 
-            const flor = document.createElement('div');
-            flor.className = 'flor';
+        // Usamos JavaScript para manipular el DOM y crear flores [7, 8]
+        function brotarFlorRealista() {
+            const container = document.createElement('div');
+            container.className = 'flor';
             
-            flor.innerText = flores[Math.floor(Math.random() * flores.length)];
+            // Posicionamiento aleatorio en la parte inferior de la pantalla
+            const x = Math.random() * 95;
+            const y = (Math.random() * 30) + 60; // Brotan en la zona baja
             
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
-            
-            flor.style.left = x + 'vw';
-            flor.style.top = y + 'vh';
-            
-            document.body.appendChild(flor);
-            
+            container.style.left = x + 'vw';
+            container.style.top = y + 'vh';
+
+            // Creamos las partes de la flor [7]
+            const cabeza = document.createElement('div');
+            cabeza.className = 'cabeza-flor';
+            const flores = ['🌻', '🌼', '☀️'];
+            cabeza.innerText = flores[Math.floor(Math.random() * flores.length)];
+
+            const tallo = document.createElement('div');
+            tallo.className = 'tallo';
+
+            // El tallo va debajo de la cabeza [9]
+            container.appendChild(cabeza);
+            container.appendChild(tallo);
+            document.body.appendChild(container);
+
+            // Eliminamos la flor después de un tiempo para mantener el rendimiento [10]
             setTimeout(() => {
-                flor.remove();
-            }, 4000);
+                container.remove();
+            }, 10000);
         }
 
-        setInterval(crearFlor, 500);
+        // Ejecutar el brote cada 800ms para un crecimiento progresivo [4]
+        setInterval(brotarFlorRealista, 800);
     </script>
 </body>
 </html>
