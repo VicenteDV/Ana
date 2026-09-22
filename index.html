@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configuración para caracteres especiales y diseño adaptable -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas para Ti</title>
+    <style>
+        body {
+            background-color: #ffffff; 
+            margin: 0;
+            overflow: hidden; 
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+        }
+
+        .mensaje {
+            position: absolute;
+            z-index: 10; 
+            color: #fbc02d;
+            font-size: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 10px;
+            pointer-events: none; 
+        }
+
+        .flor {
+            position: absolute;
+            font-size: 50px;
+            user-select: none;
+            animation: brotarYCrecer 4s ease-out forwards;
+        }
+
+        @keyframes brotarYCrecer {
+            0% {
+                transform: scale(0) rotate(0deg); 
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) rotate(20deg); 
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mensaje">
+        <h1>Para mi persona favorita 🌻</h1>
+    </div>
+
+    <script>
+        function crearFlor() {
+            const flores = ['🌻', '🌼', '✨', '⭐']; 
+            const flor = document.createElement('div');
+            flor.className = 'flor';
+            
+            flor.innerText = flores[Math.floor(Math.random() * flores.length)];
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            flor.style.left = x + 'vw';
+            flor.style.top = y + 'vh';
+            
+            document.body.appendChild(flor);
+            
+            setTimeout(() => {
+                flor.remove();
+            }, 4000);
+        }
+
+        setInterval(crearFlor, 500);
+    </script>
+</body>
+</html>
